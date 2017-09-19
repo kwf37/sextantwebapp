@@ -195,9 +195,9 @@
             $.each(sextant.connectedDevices, function( key, value ) {
             	
             	//TODO try me
-                //for(let i=0;i<data.length;i++){
-                //	$("#"+data[i].name).css(data[i].statusColor)
-                //}
+                for(let i=0;i<data.length;i++){
+                	$("#"+data[i].name).css(data[i].statusColor)
+                }
             });
 
         });   
