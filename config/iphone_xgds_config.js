@@ -24,12 +24,15 @@ module.exports = {
     		   nginx_prefix: 'wristApp'},
     		   
     // This should only exist in xGDS side
-    sse : { port : 443, 
+    xgds : { port : 443, 
     		name : '10.131.26.180', //TODO REPLACE THIS WITH YOUR IP ADDRESS 
 		   //name : 'tamar-docker.xgds.org', //TODO REPLACE THIS WITH YOUR SSL-CERT NAME
     	    protocol : 'https',
     	    ev_channels: ['EV1', 'EV2'],
-       	follow_channel: 'EV1'},
+       	follow_channel: 'EV1',
+       	username: 'TODO put in username',
+       	password: 'TODO put in auth token'
+    },
     
     // If we are using web sockets this should only exist in the default side
     socket : { protocol : 'http',
@@ -63,7 +66,11 @@ module.exports = {
        			  		 'elevation': 'TODO',
        			  		 'centerPoint' : [-122.064789, 37.419362, 5000]
        					  
-       		  		  }
+       		  		  },
+			'Black_Point' : { 'imagery' : 'TODO',
+							 'elevation' : 'TODO',
+							 'centerPoint' : [-111.466442, 35.690775, 6000]
+			  }
     },
     
     // whether or not this is a development server
@@ -76,14 +83,20 @@ module.exports = {
     bing_key : 'Ak71PK14Ypz2_IuQ2-TGbV-OVYLKeg_KEXFFYiNmEny6aFJVYxUg_pUxZfhaQ2vy',
 
     //List of Connected Devices TODO replace with your IP
-    connectedDevices : { url : 'https://10.131.26.180/xgds_status_board/multiSubsystemStatusJson/',
-
-                        list : 
-                          {pXRF : 'pXRF', 
-                          LIBS : 'LIBS', 
-                          FLIR : 'FLIR', 
-                          FTIR : 'FTIR', 
-                          redCamera2 : 'CAM2', 
-                          boat2 : 'IV'}
-                        }
+//    connectedDevices : { url : 'https://10.131.26.180/xgds_status_board/multiSubsystemStatusJson/',
+//
+//                        list : 
+//                          {pXRF : 'pXRF', 
+//                          LIBS : 'LIBS', 
+//                          FLIR : 'FLIR', 
+//                          FTIR : 'FTIR', 
+//                          redCamera2 : 'CAM2', 
+//                          boat2 : 'IV'}
+//                        }
+    connectedDevices : {pXRF : 'pXRF', 
+          			   LIBS : 'LIBS', 
+          			   FLIR : 'FLIR', 
+          			   FTIR : 'FTIR', 
+          			   redCamera2 : 'CAM2', 
+          			   boat2 : 'IV'}
 }

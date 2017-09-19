@@ -70,7 +70,7 @@
 	
 	function zoomToPosition(){
 		if (sextant.tsse !== undefined) {
-			sextant.tsse.zoomToPosition(config.sse.follow_channel);
+			sextant.tsse.zoomToPosition(config.xgds.follow_channel);
 		}
 	}
 	
@@ -145,17 +145,18 @@
 		//let button = $("#editButton");
 		//let state = button.prop('checked');
 		//window.editMode = state;
-                window.editMode ^= true;
+         window.editMode ^= true;
 	}
 
-	function reOrient(){ // Added by Kenneth
+	function reOrient(){ 
 		sextant.planManager.reOrient();
 	}
 
-	function savePlan(newName,newVersion,newNotes){ //Added by Kenneth
+	function savePlan(newName,newVersion,newNotes){ 
 		return sextant.planManager.savePlan(newName,newVersion,newNotes);
 	}
 
+<<<<<<< HEAD
     //If the connected devices are defined, they will be loaded into a toolbar and the polling will be started
     //Otherwise, the entire connected devices functionality will not be started
 	function loadDevices(){
@@ -202,3 +203,6 @@
 
         });   
     }
+=======
+    
+>>>>>>> 24f3d1f8272c8f454a0e077a783895b5ffb5cf88

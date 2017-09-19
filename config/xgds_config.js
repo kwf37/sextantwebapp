@@ -23,11 +23,14 @@ module.exports = {
     		   nginx_prefix: 'wristApp'},
     		   
     // This should only exist in xGDS side
-    sse : { port : 443, 
+    xgds : { port : 443, 
     	    name : 'localhost',
     	    protocol : 'https',
     	    ev_channels: ['EV1', 'EV2'],
-    	    follow_channel: 'EV1'},
+    	    follow_channel: 'EV1',
+    	    	username: 'TODO put in username',
+    	    	password: 'TODO put in auth token'
+    	    	},
     
     // If we are using web sockets this should only exist in the default side
     socket : { protocol : 'http',
@@ -60,7 +63,11 @@ module.exports = {
        		  'Ames' : { 'imagery': 'TODO',
        			  		 'elevation': 'TODO',
        			  		 'centerPoint' : [-122.064789, 37.419362, 5000]
-       				   }
+       				   },
+			'Black_Point' : { 'imagery' : 'TODO',
+							 'elevation' : 'TODO',
+							 'centerPoint' : [-111.466442, 35.690775, 6000]
+			  }
     },
     
     // whether or not this is a development server
@@ -70,6 +77,16 @@ module.exports = {
     showCoordinates : false,
 
     // TODO override with your key if using bing.
-    bing_key : 'Ak71PK14Ypz2_IuQ2-TGbV-OVYLKeg_KEXFFYiNmEny6aFJVYxUg_pUxZfhaQ2vy'
+    bing_key : 'Ak71PK14Ypz2_IuQ2-TGbV-OVYLKeg_KEXFFYiNmEny6aFJVYxUg_pUxZfhaQ2vy',
+    
+    //List of Connected Devices 
+    connectedDevices : { pXRF : 'pXRF', 
+                          LIBS : 'LIBS', 
+                          FLIR : 'FLIR', 
+                          FTIR : 'FTIR', 
+                          redCamera2 : 'CAM2', 
+                          boat2 : 'IV'
+                        }
+
 
 }

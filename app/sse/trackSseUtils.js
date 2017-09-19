@@ -15,14 +15,14 @@
 //__END_LICENSE__
 
 import {config} from './../../config/config_loader';
-const hasSSE = ('sse' in config);
+const hasSSE = ('xgds' in config);
 
 const moment = require('moment');
 import {Color, ImageMaterialProperty, ColorMaterialProperty, Cartesian2, Cartesian3, CallbackProperty, HeadingPitchRange, Clock} from './../cesium_util/cesium_imports'
 import {DynamicLines, buildCylinder, buildArrow, updatePositionHeading, buildRectangle, buildPositionDataSource} from './../cesium_util/cesiumlib';
 import {SSE} from './sseUtils'
 
-const hostname = config.sse.protocol + '://' + config.sse.name;
+const hostname = config.xgds.protocol + '://' + config.xgds.name;
 let sse = undefined;
 let fakeHeading = false;
 
@@ -219,18 +219,27 @@ class TrackSSE {
 		}, this);
 	};
 
+	addColor(channel, newColor) {
+		let color = Color.fromCssColorString('#' + newColor)
+		// make a translucent one
+		let cclone = color.clone().withAlpha(0.4);
+		this.colors[channel] = cclone;
+		return cclone;
+	};
+	
 	renderTrack(channel, data){
-		let styleDict = {};
-		if (data.color !== undefined) {
-			let color = Color.fromCssColorString('#' + data.color)
-			styleDict['material'] = color;
-			// make a translucent one
-			let cclone = color.clone().withAlpha(0.4);
-			this.colors[channel] = cclone;
+		let color = Color.GREEN;
+		if (! channel in this.colors){
+			if (data.color !== undefined) {
+				color = this.addColor(data.color);
+			}
+		} else {
+			color = this.colors[channel];
 		}
+		
 		let coords = data.coords;
 		if (coords.length > 0) {
-			this.cTracks[channel] = new DynamicLines(this.viewerWrapper, coords[0], channel, styleDict);
+			this.cTracks[channel] = new DynamicLines(this.viewerWrapper, coords[0], channel, {'material':color});
 		}
 	};
 
@@ -368,9 +377,11 @@ class TrackSSE {
 
 	renderPosition(channel, data, stopped){
 //		console.log('rendering position');
-		let color = Color.GREEN;
+		let color = Color.GREEN; 
 		if (channel in this.colors){
 			color = this.colors[channel];
+		} else {
+			color = this.addColor(channel, data.track_hexcolor);
 		}
 		
 		if (!(channel in this.cPosition)) {
