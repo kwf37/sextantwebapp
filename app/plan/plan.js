@@ -149,6 +149,7 @@ class PlanManager {
 	 			//console.log(y1);
 	 			//console.log(y2);
 			}
+			console.log(this.stationBoundaries);
 
 			this.viewerWrapper.viewer.zoomTo(entityGroup, new HeadingPitchRange(0, -Math.PI/2.0, 150.0));
 		}

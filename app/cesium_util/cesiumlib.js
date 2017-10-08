@@ -11,7 +11,7 @@ import {Viewer, EllipsoidTerrainProvider, Cartesian3, Cartesian2, PolygonGeometr
 		sampleTerrain, ScreenSpaceEventHandler, ScreenSpaceEventType, Rectangle, RectangleGeometry, LabelStyle, CzmlDataSource, CustomDataSource,
 		CreateTileMapServiceImageryProvider, CesiumTerrainProvider, CallbackProperty, VerticalOrigin, HorizontalOrigin, Matrix4, ConstantProperty,
 		SceneMode,
-		PinBuilder, Transforms, HeadingPitchRoll, ColorGeometryInstanceAttribute, GeometryInstance, Primitive, KmlDataSource, Clock} from './cesium_imports'
+		PinBuilder, Transforms, HeadingPitchRoll, ColorGeometryInstanceAttribute, GeometryInstance, Primitive, KmlDataSource, Clock, NearFarScalar} from './cesium_imports'
 
 import viewerCesiumNavigationMixin from './cesium-navigation/viewerCesiumNavigationMixin';
 
@@ -497,7 +497,8 @@ const buildCylinder = function(position, height, radius, slices, label, styleOpt
 		        horizontalOrigin: HorizontalOrigin.RIGHT,
 		        fillColor: Color.YELLOW,
 		        outlineWidth: 3.0,
-		        eyeOffset: new Cartesian3(radius + 2, 0, 1.0)
+		        eyeOffset: new Cartesian3(radius + 2, 0, 1.0),
+                scaleByDistance: new Cesium.NearFarScalar(0, 1.0, 8.0e6, 1.0) //Added by Kenneth 9/29/17 TODO
 			}
 		}
 		let cylinderEntity = viewerWrapper.viewer.entities.add(cylinderOptions);

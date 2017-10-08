@@ -45,6 +45,7 @@ import CzmlDataSource from 'cesium/Source/DataSources/CzmlDataSource';
 import KmlDataSource from 'cesium/Source/DataSources/KmlDataSource';
 import CustomDataSource from 'cesium/Source/DataSources/CustomDataSource';
 import Clock from 'cesium/Source/Core/Clock';
+import NearFarScalar from 'cesium/Source/Core/NearFarScalar';
 
 BingMapsApi.defaultKey = global.config.bing_key;
 
@@ -53,4 +54,4 @@ export {Viewer, EllipsoidTerrainProvider, Ellipsoid, Cartographic, Transforms, P
     ColorGeometryInstanceAttribute, GeometryInstance, Rectangle, RectangleGeometry, EntityCollection, CzmlDataSource, KmlDataSource,
     CreateTileMapServiceImageryProvider, GroundPrimitive, CesiumTerrainProvider, VerticalOrigin, PinBuilder, HorizontalOrigin, ConstantProperty,
     CylinderGeometry, CylinderGraphics, Primitive, defined, PolygonHierarchy, PolygonGeometry, HeadingPitchRoll, Matrix4, LabelStyle,
-    SceneMode, HeadingPitchRange, Clock}
+    SceneMode, HeadingPitchRange, Clock, NearFarScalar}
