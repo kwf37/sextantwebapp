@@ -77,18 +77,24 @@ class TrackSSE {
 		this.viewerWrapper.viewer.camera.moveStart.addEventListener(function(){context.isMoving=true;});
 		this.viewerWrapper.viewer.camera.moveEnd.addEventListener(function(){context.isMoving=false;});
 
+		this.viewerWrapper.viewer.clock.onTick.addEventListener(function(clock){
+			if(this.followPosition && !isMoving){
+                let ray = this.viewerWrapper.camera.getPickRay(new Cartesian2(
+	            Math.round(this.viewerWrapper.viewer.scene.canvas.clientWidth / 2),
+	            Math.round(this.viewerWrapper.viewer.scene.canvas.clientHeight / 2)
+	            ));
+			    let position = this.viewerWrapper.viewer.scene.globe.pick(ray, this.viewerWrapper.viewer.scene);
+			    let range = Cartesian3.distance(position, this.viewerWrapper.camera.position);
+
+			    this.viewerWrapper.viewer.zoomTo(entity, new HeadingPitchRange(0, -Math.PI/2.0, range));
+			}
+		});
+
 	};
 
 	setFollowPosition(value) {
 		// follow the current position
-		
 		this.followPosition = value;
-		// tracked entity does follow it but it mucks with the camera angle
-		if (value){
-			this.viewerWrapper.viewer.trackedEntity = this.cPaths[config.xgds.follow_channel];
-		} else {
-			this.viewerWrapper.viewer.trackedEntity = undefined;
-		}
 	};
 	
 	allChannels(theFunction, context){
