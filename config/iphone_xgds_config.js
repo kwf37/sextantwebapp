@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // __BEGIN_LICENSE__
 //Copyright (c) 2015, United States Government, as represented by the 
 //Administrator of the National Aeronautics and Space Administration. 
@@ -18,14 +19,14 @@ module.exports = {
 	// The server that is running this node app 
     server : { port : 3001,
     		   cesium_port: undefined,
-    		   name : '128.102.236.78', //TODO REPLACE THIS WITH YOUR IP ADDRESS 
+    		   name : '10.0.0.46', //TODO REPLACE THIS WITH YOUR IP ADDRESS 
     		   //name : 'tamar-docker.xgds.org', //TODO REPLACE THIS WITH YOUR SSL-CERT NAME
     		   protocol: 'https',
     		   nginx_prefix: 'wristApp'},
     		   
     // This should only exist in xGDS side
     xgds : { port : 443, 
-    		name : '128.102.236.78', //TODO REPLACE THIS WITH YOUR IP ADDRESS 
+    		name : '10.0.0.46', //TODO REPLACE THIS WITH YOUR IP ADDRESS 
 		   //name : 'tamar-docker.xgds.org', //TODO REPLACE THIS WITH YOUR SSL-CERT NAME
     	    protocol : 'https',
     	    ev_channels: ['EV1', 'EV2'],
@@ -50,8 +51,8 @@ module.exports = {
     defaultSite : 'HI_Kilauea',
     
     // list of kml links to load
-    kml_urls : ['https://128.102.236.78/notes/notesFeed.kml',
-    	           'https://128.102.236.78/basaltApp/hvnp_so2.kml'], //TODO REPLACE THIS WITH YOUR IP ADDRESS
+    kml_urls : ['https://10.0.0.46/notes/notesFeed.kml',
+    	           'https://10.0.0.46/basaltApp/hvnp_so2.kml'], //TODO REPLACE THIS WITH YOUR IP ADDRESS
     
     // list of various sites we support
     sites : { 'HI_Mauna_Ulu' : { 'imagery' : 'CustomMaps/HI_lowqual_relief',

@@ -154,5 +154,3 @@
 	function savePlan(newName,newVersion,newNotes){ 
 		return sextant.planManager.savePlan(newName,newVersion,newNotes);
 	}
-
-    
