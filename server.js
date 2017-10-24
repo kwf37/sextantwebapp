@@ -1,4 +1,5 @@
 const express = require('express');
+//const cors = require('cors')
 const path = require('path');
 const terrainServer = require('./terrainserver');
 const webpackDevMiddleware = require("webpack-dev-middleware");
@@ -7,7 +8,7 @@ import {config} from './config/config_loader';
 
 let app = express();
 
-(function() {
+/*(function() {
   // Step 1: Create & configure a webpack compiler
   const webpack = require('webpack');
   const webpackConfig = require('./webpack.config');
@@ -24,7 +25,7 @@ let app = express();
 	    log: console.log, path: '/' + config.server.nginx_prefix + '/__webpack_hmr', heartbeat: 10 * 1000
 	  }));
 //  }
-})();
+})();*/
 
 // Serve static files from the public folder
 const publicPath = path.resolve(__dirname, 'public');
@@ -69,6 +70,17 @@ app.use('/font-awesome', express.static(fontAwesomePath));
 //TODO this seems to work without this but may need it later.
 //app.set('trust proxy', true);
 //app.set('trust proxy', 'loopback');
+
+// Trying to set up CORS, no joy
+//app.options('*', cors())
+//app.use(cors())
+
+//app.use(function(req, res, next) {
+//	console.log('shoving headers in');
+//	  res.header("Access-Control-Allow-Origin", "*");
+//	  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//	  next();
+//	});
 
 const port = config.server.port;
 app.listen(port, function () {

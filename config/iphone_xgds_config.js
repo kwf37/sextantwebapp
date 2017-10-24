@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // __BEGIN_LICENSE__
 //Copyright (c) 2015, United States Government, as represented by the 
 //Administrator of the National Aeronautics and Space Administration. 
@@ -14,25 +13,28 @@
 //CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 //specific language governing permissions and limitations under the License.
 // __END_LICENSE__
+
+let USERNAME = 'ev1';
+let PASSWORD = '54ccb84224991ad49c94d418d565a1532be51bb1';
+let SERVER_NAME = '10.0.0.46';
+
 module.exports = {
 
 	// The server that is running this node app 
     server : { port : 3001,
     		   cesium_port: undefined,
-    		   name : '10.0.0.46', //TODO REPLACE THIS WITH YOUR IP ADDRESS 
-    		   //name : 'tamar-docker.xgds.org', //TODO REPLACE THIS WITH YOUR SSL-CERT NAME
+    		   name : SERVER_NAME,
     		   protocol: 'https',
     		   nginx_prefix: 'wristApp'},
     		   
     // This should only exist in xGDS side
     xgds : { port : 443, 
-    		name : '10.0.0.46', //TODO REPLACE THIS WITH YOUR IP ADDRESS 
-		   //name : 'tamar-docker.xgds.org', //TODO REPLACE THIS WITH YOUR SSL-CERT NAME
+    		name : SERVER_NAME,
     	    protocol : 'https',
     	    ev_channels: ['EV1', 'EV2'],
        	follow_channel: 'EV1',
-       	username: 'ev1', //TODO put in username',
-       	password: 'ev1', //TODO put in auth token'
+       	username: USERNAME,
+       	password: PASSWORD
     },
     
     // If we are using web sockets this should only exist in the default side
@@ -48,12 +50,12 @@ module.exports = {
     terrain : { port : 9090 },
     
     // Default geographical site
-    defaultSite : 'HI_Kilauea',
+    defaultSite : 'Ames',
     
     // list of kml links to load
-    kml_urls : ['https://10.0.0.46/notes/notesFeed.kml',
-    	           'https://10.0.0.46/basaltApp/hvnp_so2.kml'], //TODO REPLACE THIS WITH YOUR IP ADDRESS
-    
+    kml_urls : ['https://' + USERNAME + ':' + PASSWORD + '@' + SERVER_NAME + '/notes/rest/notesFeed.kml',
+    				'https://' + USERNAME + ':' + PASSWORD + '@' + SERVER_NAME + '/basaltApp/rest/hvnp_so2_link.kml'],
+
     // list of various sites we support
     sites : { 'HI_Mauna_Ulu' : { 'imagery' : 'CustomMaps/HI_lowqual_relief',
     							 'elevation' : 'tilesets/HI_highqual',
@@ -87,17 +89,6 @@ module.exports = {
     // TODO override with your key if using bing.
     bing_key : 'Ak71PK14Ypz2_IuQ2-TGbV-OVYLKeg_KEXFFYiNmEny6aFJVYxUg_pUxZfhaQ2vy',
 
-    //List of Connected Devices TODO replace with your IP
-//    connectedDevices : { url : 'https://10.131.26.180/xgds_status_board/multiSubsystemStatusJson/',
-//
-//                        list : 
-//                          {pXRF : 'pXRF', 
-//                          LIBS : 'LIBS', 
-//                          FLIR : 'FLIR', 
-//                          FTIR : 'FTIR', 
-//                          redCamera2 : 'CAM2', 
-//                          boat2 : 'IV'}
-//                        }
     connectedDevices : {pXRF : 'pXRF', 
           			   LIBS : 'LIBS', 
           			   FLIR : 'FLIR', 

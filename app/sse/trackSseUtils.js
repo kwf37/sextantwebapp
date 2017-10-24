@@ -15,6 +15,8 @@
 //__END_LICENSE__
 
 import {config} from './../../config/config_loader';
+import {beforeSend} from './../util/xgdsUtils';
+
 const hasSSE = ('xgds' in config);
 
 const moment = require('moment');
@@ -50,7 +52,7 @@ class TrackSSE {
 		this.cPaths = {};
 		
 		// colors and materials
-		this.colors = {'gray': Color.GRAY.withAlpha(0.75)};
+		this.colors = {'gray': Color.GRAY.withAlpha(0.25)};
 		this.labelColors = {'gray': Color.GRAY};
 		this.imageMaterials = {};
 		this.colorMaterials = {};
@@ -77,24 +79,18 @@ class TrackSSE {
 		this.viewerWrapper.viewer.camera.moveStart.addEventListener(function(){context.isMoving=true;});
 		this.viewerWrapper.viewer.camera.moveEnd.addEventListener(function(){context.isMoving=false;});
 
-		this.viewerWrapper.viewer.clock.onTick.addEventListener(function(clock){
-			if(this.followPosition && !isMoving){
-                let ray = this.viewerWrapper.camera.getPickRay(new Cartesian2(
-	            Math.round(this.viewerWrapper.viewer.scene.canvas.clientWidth / 2),
-	            Math.round(this.viewerWrapper.viewer.scene.canvas.clientHeight / 2)
-	            ));
-			    let position = this.viewerWrapper.viewer.scene.globe.pick(ray, this.viewerWrapper.viewer.scene);
-			    let range = Cartesian3.distance(position, this.viewerWrapper.camera.position);
-
-			    this.viewerWrapper.viewer.zoomTo(entity, new HeadingPitchRange(0, -Math.PI/2.0, range));
-			}
-		});
-
 	};
 
 	setFollowPosition(value) {
 		// follow the current position
+		
 		this.followPosition = value;
+		// tracked entity does follow it but it mucks with the camera angle
+//		if (value){
+//			this.viewerWrapper.viewer.trackedEntity = this.cPaths[config.xgds.follow_channel];
+//		} else {
+//			this.viewerWrapper.viewer.trackedEntity = undefined;
+//		}
 	};
 	
 	allChannels(theFunction, context){
@@ -242,18 +238,14 @@ class TrackSSE {
 			let start = JulianDate.fromIso8601(data.times[0][0]);
 			let stop = JulianDate.addHours(start, 12, new JulianDate());
 			
-			var clock = new Clock({
-				startTime : start.clone(),
-				clockRange: ClockRange.UNBOUNDED
-			});
-
-			this.viewerWrapper.viewer.clockViewModel = new ClockViewModel(clock);
+			let cvm = new ClockViewModel(this.viewerWrapper.viewer.clock);
+			cvm.startTime = start.clone();
 
 			let path = this.cPaths[channel];
 			if (path !== undefined){
 				path.availability =  new TimeIntervalCollection([new TimeInterval({
-			        start : start,
-			        stop : stop
+			        start : start.clone(),
+			        stop : stop.clone()
 			    })]);
 			}
 		}
@@ -337,14 +329,11 @@ class TrackSSE {
 	
 	updateSampledPositionProperty(channel, data) {
 		// update the stored cesium position
-		let property = undefined;
-		if (!(channel in this.cSampledPositionProperties)){
+		let property = this.cSampledPositionProperties[channel];;
+		if (_.isUndefined(property)){
 			property = new SampledPositionProperty();
 			property.forwardExtrapolationType = ExtrapolationType.HOLD;
-
 			this.cSampledPositionProperties[channel] = property;
-		} else {
-			property = this.cSampledPositionProperties[channel];
 		}
 		if ('lon' in data) {
 			// adding a point
@@ -479,10 +468,12 @@ class TrackSSE {
 	}; 
 
 	getCurrentPositions() {
-		let trackPKUrl = hostname + '/track/position/active/json'
+		let trackPKUrl = hostname + '/track/rest/position/active/json'
 		$.ajax({
 			url: trackPKUrl,
 			dataType: 'json',
+			xhrFields: {withCredentials: true},
+			beforeSend: beforeSend,
 			success: $.proxy(function(data) {
 				if (data != null){
 					// should return dictionary of channel: position
@@ -507,10 +498,12 @@ class TrackSSE {
 			return;
 		}
 
-		let trackUrl =  hostname + '/xgds_map_server/mapJson/basaltApp.BasaltTrack/pk:' + data.track_pk
+		let trackUrl =  hostname + '/xgds_map_server/rest/mapJson/basaltApp.BasaltTrack/pk:' + data.track_pk
 		$.ajax({
 			url: trackUrl,
 			dataType: 'json',
+			xhrFields: {withCredentials: true},
+			beforeSend: beforeSend,
 			success: $.proxy(function(data) {
 				if (data != null && data.length == 1){
 					this.tracks[channel] = data[0];

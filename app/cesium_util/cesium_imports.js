@@ -68,4 +68,3 @@ export {Viewer, EllipsoidTerrainProvider, Ellipsoid, Cartographic, Transforms, P
     CylinderGeometry, CylinderGraphics, Primitive, defined, PolygonHierarchy, PolygonGeometry, HeadingPitchRoll, Matrix4, LabelStyle, ClockRange,
     SceneMode, HeadingPitchRange, Clock, ClockViewModel, SampledPositionProperty, JulianDate, HermitePolynomialApproximation, TimeIntervalCollection, TimeInterval,
     CompositePositionProperty, ConstantPositionProperty, SampledProperty, ExtrapolationType}
-
