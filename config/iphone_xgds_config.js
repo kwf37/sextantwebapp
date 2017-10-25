@@ -16,7 +16,7 @@
 
 let USERNAME = 'ev1';
 let PASSWORD = '54ccb84224991ad49c94d418d565a1532be51bb1';
-let SERVER_NAME = '10.0.0.46';
+let SERVER_NAME = '10.132.11.40';
 
 module.exports = {
 

@@ -71,18 +71,33 @@ class TrackSSE {
 		this.allChannels(this.subscribe, this);
 		
 		let context = this;
+
+		//Current camera range
+		this.range = 500;
 		
 		// show timeout state
 		setInterval(function() {context.allChannels(context.checkStale, context);}, context.STALE_TIMEOUT);
 		
-		//Event listener that calculates new view offset for following
-		this.viewerWrapper.viewer.camera.moveStart.addEventListener(function(){
-			if(this.followPosition && this.viewerWrapper.viewer.trackedEntity != undefined){
-				console.log("Setting new Entity viewfrom")
-				let entity = this.viewerWrapper.viewer.trackedEntity;
-				let entityPosition = entity.position.getValue(JulianDate.now());
-				entity.viewFrom = new Cartesian3(0,0,this.viewerWrapper.viewer.camera.position.z-entityPosition.z);
-		}
+				//Event listeners track when camera is moving or not, to prevent zooming during a move
+		this.viewerWrapper.viewer.camera.moveStart.addEventListener(function(){context.isMoving=true;});
+		this.viewerWrapper.viewer.camera.moveEnd.addEventListener(function(){context.isMoving=false;});
+
+		this.viewerWrapper.viewer.scene.preRender.addEventListener(function(){
+			if(this.followPosition && !this.isMoving){
+                let ray = this.viewerWrapper.camera.getPickRay(new Cartesian2(
+	            Math.round(this.viewerWrapper.viewer.scene.canvas.clientWidth / 2),
+	            Math.round(this.viewerWrapper.viewer.scene.canvas.clientHeight / 2)
+	            ));
+			    let position = this.viewerWrapper.viewer.scene.globe.pick(ray, this.viewerWrapper.viewer.scene);
+			    if(position != undefined){
+				    let newRange = Cartesian3.distance(position, this.viewerWrapper.camera.position);
+				    if(newRange <this.range-5 || newRange > this.range + 5){ //Check if range is different
+				    	this.range = newRange;
+				    }
+				    this.viewerWrapper.viewer.zoomTo(this.cPaths[config.xgds.follow_channel], new HeadingPitchRange(0, -Math.PI/2.0, this.range));
+				
+			}
+			}
 		},this);
 	};
 
@@ -90,17 +105,6 @@ class TrackSSE {
 		// follow the current position
 		
 		this.followPosition = value;
-		 //tracked entity does follow it but it mucks with the camera angle
-		if (value){
-
-			let entity = this.cPaths[config.xgds.follow_channel];
-			let entityPosition = entity.position.getValue(JulianDate.now());
-			entity.viewFrom = new Cartesian3(0,0,this.viewerWrapper.viewer.camera.position.z-entityPosition.z);
-
-			this.viewerWrapper.viewer.trackedEntity = entity;
-		} else {
-			this.viewerWrapper.viewer.trackedEntity = undefined;
-		}
 	};
 	
 	allChannels(theFunction, context){
