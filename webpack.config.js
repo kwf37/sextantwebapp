@@ -38,10 +38,6 @@ const config = {
         new webpack.DefinePlugin({
             'process.env.CONFIG_PATH': JSON.stringify(process.env.CONFIG_PATH || undefined)
         })
-//        new webpack.ProvidePlugin({
-//           $: "jquery",
-//           jQuery: "jquery"
-//       })
     ],
     module: {
         noParse: [

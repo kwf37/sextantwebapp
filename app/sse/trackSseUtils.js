@@ -75,22 +75,32 @@ class TrackSSE {
 		// show timeout state
 		setInterval(function() {context.allChannels(context.checkStale, context);}, context.STALE_TIMEOUT);
 		
-		//Event listeners track when camera is moving or not, to prevent zooming during a move
-		this.viewerWrapper.viewer.camera.moveStart.addEventListener(function(){context.isMoving=true;});
-		this.viewerWrapper.viewer.camera.moveEnd.addEventListener(function(){context.isMoving=false;});
-
+		//Event listener that calculates new view offset for following
+		this.viewerWrapper.viewer.camera.moveStart.addEventListener(function(){
+			if(this.followPosition && this.viewerWrapper.viewer.trackedEntity != undefined){
+				console.log("Setting new Entity viewfrom")
+				let entity = this.viewerWrapper.viewer.trackedEntity;
+				let entityPosition = entity.position.getValue(JulianDate.now());
+				entity.viewFrom = new Cartesian3(0,0,this.viewerWrapper.viewer.camera.position.z-entityPosition.z);
+		}
+		},this);
 	};
 
 	setFollowPosition(value) {
 		// follow the current position
 		
 		this.followPosition = value;
-		// tracked entity does follow it but it mucks with the camera angle
-//		if (value){
-//			this.viewerWrapper.viewer.trackedEntity = this.cPaths[config.xgds.follow_channel];
-//		} else {
-//			this.viewerWrapper.viewer.trackedEntity = undefined;
-//		}
+		 //tracked entity does follow it but it mucks with the camera angle
+		if (value){
+
+			let entity = this.cPaths[config.xgds.follow_channel];
+			let entityPosition = entity.position.getValue(JulianDate.now());
+			entity.viewFrom = new Cartesian3(0,0,this.viewerWrapper.viewer.camera.position.z-entityPosition.z);
+
+			this.viewerWrapper.viewer.trackedEntity = entity;
+		} else {
+			this.viewerWrapper.viewer.trackedEntity = undefined;
+		}
 	};
 	
 	allChannels(theFunction, context){
