@@ -16,7 +16,7 @@
 
 let USERNAME = 'ev1';
 let PASSWORD = '54ccb84224991ad49c94d418d565a1532be51bb1';
-let SERVER_NAME = '10.132.11.40';
+let SERVER_NAME = '10.0.0.46';
 
 module.exports = {
 
@@ -54,7 +54,7 @@ module.exports = {
     
     // list of kml links to load
     kml_urls : ['https://' + USERNAME + ':' + PASSWORD + '@' + SERVER_NAME + '/notes/rest/notesFeed.kml',
-    				'https://' + USERNAME + ':' + PASSWORD + '@' + SERVER_NAME + '/basaltApp/rest/hvnp_so2_link.kml'],
+    				'https://' + USERNAME + ':' + PASSWORD + '@' + /*SERVER_NAME +*/ 'basalt.xgds.org/basaltApp/rest/hvnp_so2_link.kml'],
 
     // list of various sites we support
     sites : { 'HI_Mauna_Ulu' : { 'imagery' : 'CustomMaps/HI_lowqual_relief',
