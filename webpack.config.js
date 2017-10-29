@@ -10,17 +10,13 @@ const buildPath = path.resolve(__dirname, 'public', 'build');
 const mainPath = path.resolve(__dirname, 'app', 'index.js');
 
 const config = {
-    devtool: "source-map",
-    stats: {
-    	errorDetails: true
-    },
     resolve: {
         modules: [
             path.resolve('./node_modules')
         ]
     },
     entry: [
-        'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',  // this keeps erroring not sure what it is
+        //'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',  // this keeps erroring not sure what it is
         mainPath
     ],
     output: {
@@ -33,7 +29,6 @@ const config = {
     },
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env.CONFIG_PATH': JSON.stringify(process.env.CONFIG_PATH || undefined)
@@ -56,7 +51,8 @@ const config = {
                 }
             },
             {test: /\.js$/, loader: 'babel', exclude: [nodeModulesPath]},
-            {test: /\.css$/, loader: "style!css" },
+            {test: /\.css$/, loaders: ['style-loader', 'css-loader'] },
+            {test: /Cesium\.js$/, loader: 'script-loader' },
             {test: /\.(png|gif|jpg|jpeg|glsl)$/, loader: "file-loader"},
             {test: /\.(woff|woff2|eot|ttf|svg)$/, loader: 'url?limit=10000' },
             {test: /node_modules/, loader: 'ify'}
@@ -65,6 +61,10 @@ const config = {
     node: {
     	__dirname: true,
         fs: "empty" //bug fix for cannot resolve module fs error
+    },
+    amd: {
+        // Enable webpack-friendly use of require in Cesium
+        toUrlUndefined: true
     }
 };
 

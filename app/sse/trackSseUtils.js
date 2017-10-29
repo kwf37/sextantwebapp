@@ -89,7 +89,7 @@ class TrackSSE {
 	            Math.round(this.viewerWrapper.viewer.scene.canvas.clientHeight / 2)
 	            ));
 			    let position = this.viewerWrapper.viewer.scene.globe.pick(ray, this.viewerWrapper.viewer.scene);
-			    if(position != undefined){
+			    if(position != undefined && this.cPaths[config.xgds.follow_channel] != undefined){
 				    let newRange = Cartesian3.distance(position, this.viewerWrapper.camera.position);
 				    if(newRange <this.range-5 || newRange > this.range + 5){ //Check if range is different
 				    	this.range = newRange;

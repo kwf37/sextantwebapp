@@ -1,10 +1,10 @@
 /**
  * Created by johan on 5/24/2017.
  */
-/*window.CESIUM_BASE_URL = '../../public';
+window.CESIUM_BASE_URL = '../../public';
 require('../../node_modules/cesium/Build/Cesium/Cesium.js');
 require('../../node_modules/cesium/Build/Cesium/Widgets/widgets.css');
-const Cesium = window.Cesium;*/
+const Cesium = window.Cesium;
 
 import Viewer from 'cesium/Source/Widgets/Viewer/Viewer';
 import EllipsoidTerrainProvider from 'cesium/Source/Core/EllipsoidTerrainProvider';
@@ -72,4 +72,4 @@ export {Viewer, EllipsoidTerrainProvider, Ellipsoid, Cartographic, Transforms, P
     CreateTileMapServiceImageryProvider, GroundPrimitive, CesiumTerrainProvider, VerticalOrigin, PinBuilder, HorizontalOrigin, ConstantProperty,
     CylinderGeometry, CylinderGraphics, Primitive, defined, PolygonHierarchy, PolygonGeometry, HeadingPitchRoll, Matrix4, LabelStyle, ClockRange,
     SceneMode, HeadingPitchRange, Clock, ClockViewModel, SampledPositionProperty, JulianDate, HermitePolynomialApproximation, TimeIntervalCollection, TimeInterval,
-    CompositePositionProperty, ConstantPositionProperty, SampledProperty, ExtrapolationType,/*Cesium*/}
+    CompositePositionProperty, ConstantPositionProperty, SampledProperty, ExtrapolationType,Cesium}
